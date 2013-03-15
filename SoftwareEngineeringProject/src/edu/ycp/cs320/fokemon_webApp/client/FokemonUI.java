@@ -18,18 +18,24 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.canvas.dom.client.CssColor;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.GestureStartEvent;
 import com.google.gwt.event.dom.client.GestureStartHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseWheelEvent;
+import com.google.gwt.event.dom.client.MouseWheelHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -78,7 +84,7 @@ public class FokemonUI implements EntryPoint {
 	  Context2d backBufferContextTemp;
 	  
 	  public void onModuleLoad() {
-		  
+		FocusPanel panel = new FocusPanel();  
 		areaList[0] = new Area();
 		areaList[0].createTallGrassSquare(5, 5, 10, 4);
 		areaList[0].createTallGrassSquare(5, 10, 10, 4);
@@ -108,7 +114,8 @@ public class FokemonUI implements EntryPoint {
 	    canvas.setCoordinateSpaceHeight(height);
 	    backBuffer.setCoordinateSpaceWidth(width);
 	    backBuffer.setCoordinateSpaceHeight(height);
-	    RootPanel.get(holderId).add(canvas);
+	    RootPanel.get(holderId).add(panel);
+	    panel.add(canvas);
 	    context = canvas.getContext2d();
 	    backBufferContext = backBuffer.getContext2d();
 	    
@@ -152,7 +159,33 @@ public class FokemonUI implements EntryPoint {
 	  }
 	  
 	  void initHandlers() {
-	    canvasTemp.addMouseMoveHandler(new MouseMoveHandler() {
+		  canvas.setFocus(true);
+		  canvas.addMouseDownHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent event) {
+				switch(event.getNativeButton()){
+				case(NativeEvent.BUTTON_LEFT):
+					player.getPlayerLocation().setX(player.getPlayerLocation().getX()-1);
+					break;
+				case(NativeEvent.BUTTON_RIGHT):
+					player.getPlayerLocation().setX(player.getPlayerLocation().getX()+1);
+					break;
+				}			
+			}
+		});
+		  canvas.addMouseWheelHandler(new MouseWheelHandler() {
+			
+			@Override
+			public void onMouseWheel(MouseWheelEvent event) {
+				int wheel = event.getDeltaY();
+				if(wheel>0){
+					player.getPlayerLocation().setY(player.getPlayerLocation().getY()+1);
+				}else {
+					player.getPlayerLocation().setY(player.getPlayerLocation().getY()-1);
+				}
+			}
+		});
+		  
+		  canvasTemp.addMouseMoveHandler(new MouseMoveHandler() {
 	      public void onMouseMove(MouseMoveEvent event) {
 	        mouseX = event.getRelativeX(canvasTemp.getElement());
 	        mouseY = event.getRelativeY(canvasTemp.getElement());
