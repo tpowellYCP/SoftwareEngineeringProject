@@ -330,6 +330,7 @@ public class LoginView extends Composite {
 					rdbtnGrass.setVisible(true);
 
 					model.setRole("user");
+
 				} else {
 					GWT.log("Username Already Exists");
 					Window.alert("Username Already Exists");
