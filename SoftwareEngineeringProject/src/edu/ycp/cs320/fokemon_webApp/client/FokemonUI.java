@@ -44,6 +44,8 @@ public class FokemonUI {
 		saveButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				saveCurrentProfile();
+
+				map.setFocusCanvas();
 				//LoginView.saveProfile();
 			}
 		});
