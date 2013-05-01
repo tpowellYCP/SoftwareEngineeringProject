@@ -1,7 +1,7 @@
 ----------------------------------------------------------------
-Fri Apr 26 08:31:25 EDT 2013:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013e-4653-9f40-000003034e00 
-on database directory H:\fokemon  with class loader sun.misc.Launcher$AppClassLoader@19035ff9 
+Wed May 01 09:10:32 EDT 2013:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.9.1.0 - (1344872): instance a816c00e-013e-6037-3b50-000003033220 
+on database directory H:\fokemon  with class loader sun.misc.Launcher$AppClassLoader@6ec44aaf 
 Loaded from file:/H:/git/SoftwareEngineeringProject/SoftwareEngineeringProject/derby.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_07-b11

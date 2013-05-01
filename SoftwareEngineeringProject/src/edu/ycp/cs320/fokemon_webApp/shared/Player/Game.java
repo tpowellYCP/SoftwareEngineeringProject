@@ -16,6 +16,7 @@ import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.Pokemon;
 public class Game {
 	private static Player user;
 	private static Login login;
+	private static int typeChoice;
 	//private Battle battle;
 
 
@@ -58,6 +59,12 @@ public class Game {
 		Game.user = user;
 		Game.login = login;
 	}
+	
+	public Game(Player user, Login login, int typeChoice){
+		Game.user = user;
+		Game.login = login;
+		Game.typeChoice = typeChoice;
+	}
 
 
 	public static Player getUser() {
@@ -74,7 +81,14 @@ public class Game {
 	public static void setLogin(Login login) {
 		Game.login = login;
 	}
-
+	
+	public static int getTypeChoice() {
+		return typeChoice;
+	}
+	
+	public void setTypeChoice(int _typeChoice) {
+		Game.typeChoice = _typeChoice;
+	}
 
 //	public Battle getBattle() {
 //		return battle;
@@ -110,5 +124,6 @@ public class Game {
 			}
 		});
 	}
+	
 	
 }

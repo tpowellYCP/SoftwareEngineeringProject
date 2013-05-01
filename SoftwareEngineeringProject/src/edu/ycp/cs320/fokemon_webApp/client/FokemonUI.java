@@ -120,9 +120,9 @@ public class FokemonUI {
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.REVIVE,5));
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.MASTER_BALL,5));
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.POKE_BALL,5));
-					
+
 					Pokemon Attacker = null;
-					switch(Random.nextInt(3)){
+					switch(Game.getTypeChoice()){
 					case 0:
 						Attacker = Pokemon.GeneratePokemon(PokeID.Charizard, 75);
 						Attacker.getInfo().setNickname("Charizizzle");
@@ -145,7 +145,7 @@ public class FokemonUI {
 						Attacker.getMoves().add(MoveDataBase.generateMove(MoveName.Razor_Leaf));
 						break;
 					}
-					
+
 					Game.getUser().getTeam().add(Attacker);
 				}
 				//Wall of text over

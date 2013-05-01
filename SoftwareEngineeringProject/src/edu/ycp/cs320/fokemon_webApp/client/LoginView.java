@@ -19,9 +19,14 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextBox;
 
 import edu.ycp.cs320.fokemon_webApp.shared.Login.Login;
+import edu.ycp.cs320.fokemon_webApp.shared.MoveClasses.MoveDataBase;
+import edu.ycp.cs320.fokemon_webApp.shared.MoveClasses.MoveName;
 import edu.ycp.cs320.fokemon_webApp.shared.Player.Game;
 import edu.ycp.cs320.fokemon_webApp.shared.Player.Location;
 import edu.ycp.cs320.fokemon_webApp.shared.Player.Player;
+import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.PokeID;
+import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.Pokemon;
+
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.RadioButton;
 
@@ -47,11 +52,17 @@ public class LoginView extends Composite {
 	Button btnStartYourAdventure;
 	Button btnRegister;
 	Button btnSignIn;
+	Label lblChoice;
+	RadioButton rdbtnFire;
+	RadioButton rdbtnWater;
+	RadioButton rdbtnGrass;
+	int typeChoice;
+
 
 	public LoginView() {
 		loginPanel = new AbsolutePanel();
 		initWidget(loginPanel);
-		loginPanel.setSize("587px", "242px");
+		loginPanel.setSize("615px", "323px");
 		model = new Login();
 		validLogin = false;
 		player1 = new Player();
@@ -204,6 +215,7 @@ public class LoginView extends Composite {
 		lblName.setVisible(false);
 
 		rdbtnBoy = new RadioButton("new name", "Boy");
+		rdbtnBoy.setValue(true);
 		flexTable.setWidget(5, 1, rdbtnBoy);
 		rdbtnBoy.setVisible(false);
 
@@ -211,8 +223,29 @@ public class LoginView extends Composite {
 		flexTable.setWidget(5, 2, rdbtnGirl);
 		rdbtnGirl.setVisible(false);
 
+		lblChoice = new Label("Choose your Pokemon ");
+		flexTable.setWidget(6, 0, lblChoice);
+		lblChoice.setVisible(false);
+
+
+		rdbtnFire = new RadioButton("type", "Fire");
+		rdbtnFire.setValue(true);
+		flexTable.setWidget(7, 0, rdbtnFire);
+		rdbtnFire.setVisible(false);
+
+
+		rdbtnWater = new RadioButton("type", "Water");
+		flexTable.setWidget(7, 1, rdbtnWater);
+		rdbtnWater.setVisible(false);
+
+
+		rdbtnGrass = new RadioButton("type", "Grass");
+		flexTable.setWidget(7, 2, rdbtnGrass);
+		rdbtnGrass.setVisible(false);
+
+
 		btnStartYourAdventure = new Button("Start your adventure!");
-		flexTable.setWidget(6, 1, btnStartYourAdventure);
+		flexTable.setWidget(8, 1, btnStartYourAdventure);
 		btnStartYourAdventure.setVisible(false);
 		btnStartYourAdventure.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
@@ -291,13 +324,12 @@ public class LoginView extends Composite {
 					btnRegister.setVisible(false);
 					btnSignIn.setVisible(false);
 					textBoxName.setFocus(true);
-					if (model.getPassword().length()>=3){
-						if (model.getPassword().substring(0,3).equals("lol"))
-							model.setRole("admin");
-						else
-							model.setRole("user");
-					} else 
-						model.setRole("user");
+					lblChoice.setVisible(true);
+					rdbtnFire.setVisible(true);
+					rdbtnWater.setVisible(true);
+					rdbtnGrass.setVisible(true);
+
+					model.setRole("user");
 				} else {
 					GWT.log("Username Already Exists");
 					Window.alert("Username Already Exists");
@@ -322,7 +354,7 @@ public class LoginView extends Composite {
 				if (result != null) {
 					GWT.log("Load succeeded!");
 					Window.alert("Welcome " + result.getName());
-					new Game(result, model);
+					new Game(result, model, typeChoice);
 
 					//saveProfile();
 					LoginUI.removePanel();
@@ -406,6 +438,12 @@ public class LoginView extends Composite {
 
 					model.setId(result.getId());
 					//Window.alert("Player Name: " + result.getName());
+					if (rdbtnFire.getValue()) 
+						typeChoice = 0;
+					else if (rdbtnWater.getValue()) 
+						typeChoice = 1;
+					else if (rdbtnGrass.getValue()) 
+						typeChoice = 2;
 					loadProfile();
 				} else {
 					GWT.log("Create Fail");
