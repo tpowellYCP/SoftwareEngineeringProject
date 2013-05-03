@@ -392,7 +392,11 @@ public class Battle {
 	}
 
 	private void CatchPokemon() {
-		if(user.getTeam().size()<5){
+		for (int i = 0; i < user.getTeam().size(); i++) {
+			user.getTeam().get(i).getInfo().setUsedInBattle(false);
+			}
+		opponent.getTeam(opponent.getCurrentPokemonIndex()).getInfo().setUsedInBattle(false);
+		if(user.getTeam().size()<6){
 			battleMessage.add("You have caught the wild "+opponent.getTeam(opponent.getCurrentPokemonIndex()).getInfo().getNickname());
 			battleOver=true;
 			user.getTeam().add(opponent.getTeam(opponent.getCurrentPokemonIndex()));
@@ -421,7 +425,9 @@ public class Battle {
 
 			if (teamAlive) {
 				switchTeam = true;
-				battleMessage.add("Switch to a non-fainted pokemon");
+				setInitialCurrentPokemon(user, 0);
+				battleMessage.add(user.getTeam(user.getCurrentPokemonIndex()).getInfo().getNickname()+" was sent out");
+				//battleMessage.add("Switch to a non-fainted pokemon");
 
 			} else {
 				battleMessage.add(user.getTeam(user.getCurrentPokemonIndex())

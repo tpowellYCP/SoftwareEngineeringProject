@@ -18,6 +18,7 @@ import edu.ycp.cs320.fokemon_webApp.shared.MoveClasses.MoveName;
 import edu.ycp.cs320.fokemon_webApp.shared.Player.Game;
 import edu.ycp.cs320.fokemon_webApp.shared.Player.Player;
 import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.PokeID;
+
 import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.PokedexReader;
 import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.Pokemon;
 
@@ -31,6 +32,7 @@ public class FokemonUI {
 	static final String upgradeMessage = "Your browser does not support the HTML5 Canvas. Please upgrade your browser to view this demo.";
 	static LoginView loginView;
 	static Button saveButton;
+
 	static CirculatingImagesView tempView;
 	static MapView map = new MapView();
 	static PCStorageView pcView;
@@ -100,9 +102,8 @@ public class FokemonUI {
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.POKE_BALL,5));
 
 					Pokemon Attacker = null;
-					
+			
 					switch(Game.getTypeChoice()){
-
 					case 0:
 //						Attacker = Pokemon.GeneratePokemon(PokeID.Gengar, 97);
 //						Attacker.getInfo().setNickname("Gendick");
@@ -142,7 +143,6 @@ public class FokemonUI {
 					Game.getUser().getTeam().add(Attacker);
 				}
 				//Wall of text over
-
 
 				battleView = new BattleView();
 

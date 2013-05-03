@@ -35,6 +35,7 @@ public class MapView extends Composite {
 
 	public MapView() {
 
+
 	}
 	void initialize() {
 		
@@ -164,6 +165,7 @@ public class MapView extends Composite {
 								16 * player.getPlayerLocation().getY() - 15 + 2);
 						mapPanel.getElement().getStyle().setPosition(Position.RELATIVE);
 					}else {
+
 						mapPanel.remove(playerImageCovered);
 						mapPanel.add(playerImage,
 								16 * player.getPlayerLocation().getX() - 3,
@@ -266,5 +268,6 @@ public class MapView extends Composite {
 		if (areaList[player.getPlayerLocation().getAreaArrayIndex()].terrain[player.getPlayerLocation().getX()][player.getPlayerLocation().getY()].isEnterPCView()){ //12% change of entering battle
 			FokemonUI.enterPCView();
 		} //Enter PC View
+
 	}
 }
