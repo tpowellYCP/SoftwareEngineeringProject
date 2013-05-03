@@ -104,6 +104,12 @@ public class FokemonUI {
 					switch(Game.getTypeChoice()){
 
 					case 0:
+//						Attacker = Pokemon.GeneratePokemon(PokeID.Gengar, 97);
+//						Attacker.getInfo().setNickname("Gendick");
+//						Attacker.getMoves().add(MoveDataBase.generateMove(MoveName.Spore));
+//						Attacker.getMoves().add(MoveDataBase.generateMove(MoveName.Lick));
+//						Attacker.getMoves().add(MoveDataBase.generateMove(MoveName.Night_Shade));
+//						Attacker.getMoves().set(0, MoveDataBase.generateMove(MoveName.Flamethrower));
 						Attacker = Pokemon.GeneratePokemon(PokeID.Charizard, 75);
 						Attacker.getInfo().setNickname("Charizard");
 						Attacker.getMoves().add(MoveDataBase.generateMove(MoveName.Spore));
