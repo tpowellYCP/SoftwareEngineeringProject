@@ -323,6 +323,7 @@ public class LoginView extends Composite {
 					textBoxPassword2.setVisible(false);
 					btnRegister.setVisible(false);
 					btnSignIn.setVisible(false);
+
 					textBoxName.setFocus(true);
 					lblChoice.setVisible(true);
 					rdbtnFire.setVisible(true);
