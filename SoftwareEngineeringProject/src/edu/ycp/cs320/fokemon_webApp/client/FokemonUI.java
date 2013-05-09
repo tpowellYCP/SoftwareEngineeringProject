@@ -97,6 +97,7 @@ public class FokemonUI {
 				
 				if(Game.getUser().getTeam().size() == 0){
 					//The following wall of text is to populate the player's array lists
+					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.RARE_CANDY,30));
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.SUPER_POTION,10));
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.HYPER_POTION,5));
 					Game.getUser().getItems().add(ItemDatabase.generateItem(ItemName.FULL_RESTORE,2));
