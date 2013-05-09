@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
@@ -24,6 +25,7 @@ import com.google.gwt.user.client.ui.TextBox;
 
 import edu.ycp.cs320.fokemon_webApp.shared.Battle.Battle;
 import edu.ycp.cs320.fokemon_webApp.shared.Battle.TurnChoice;
+import edu.ycp.cs320.fokemon_webApp.shared.Player.Game;
 import edu.ycp.cs320.fokemon_webApp.shared.PokemonClasses.Status;
 
 public class BattleView extends Composite {
@@ -37,6 +39,7 @@ public class BattleView extends Composite {
 	// Widgets
 	ListBox commandOptions;
 	TextBox battleAnnouncementBox;
+	TextBox test;
 	Label userHPvMax;
 	Label playerPokemonName;
 	Label opponentPokemonName;
@@ -65,8 +68,6 @@ public class BattleView extends Composite {
 	Double hpRatio;
 
 	// ***************************************************************
-	// .getTeam(battle.getUser().getCurrentPokemonIndex()).getStats().getCurHp()
-	// = 180.0;
 
 	public BattleView() {
 
@@ -130,6 +131,10 @@ public class BattleView extends Composite {
 		battleBackBufferContext.setFillStyle(CssColor.make("rgba(224,224,224,0.1)"));
 		initHandlers();
 
+		test = new TextBox();
+		test.setWidth(1000 + "px");
+		test.setHeight(50 + "px");
+		LoginUI.rootPanel.add(test);
 	}
 
 	void setBattle(Battle battle) {
@@ -149,6 +154,7 @@ public class BattleView extends Composite {
 		updatePokemonLabels();
 		updatePokemonImages();
 		updatePokemonStatus();
+		updatePlayerHPLabel();
 	}
 
 	public void draw(Context2d context, Context2d front) {
@@ -275,10 +281,6 @@ public class BattleView extends Composite {
 	void setItemOptions() { // Shows Pokemon Moves
 		commandOptions.clear();
 		commandOptionsIndex = 3;
-//		commandOptions.addItem("ITEMS");
-//		commandOptions.addItem("POKeBALLS");
-//		commandOptions.addItem("KEY ITEMS");
-//		commandOptions.addItem("BERRIES");
 		for (int i = 0; i < battle.getUser().getItems().size(); i++) {
 			commandOptions.addItem(battle.getUser().getItems().get(i).getItemName() + "  " + battle.getUser().getItems().get(i).getQuantity());
 		}
@@ -338,10 +340,11 @@ public class BattleView extends Composite {
 				handleTurn1(index, userTurnChoice);
 				switchToNextScreen();
 			}
-			if (messageIndex < battle.getBattleMessage().size()) { // While there is still a message to be displayed
+			if (messageIndex < battle.getBattleMessage().size()-1) { // While there is still a message to be displayed
 				setBattleAnnouncement(battle.getBattleMessage(), messageIndex); // Display message
 				messageIndex++; // Move on too next message
-			} else { // When no more messages to be displayed
+			}else { // When no more messages to be displayed
+				setBattleAnnouncement(battle.getBattleMessage(), messageIndex); // Display message
 				messageIndex = 0; // reset message index
 				checkEndBattle();
 				handleTurn2(); // Trigger turn 2 (Slower Pokemon)
@@ -354,19 +357,12 @@ public class BattleView extends Composite {
 				setBattleAnnouncement(battle.getBattleMessage(), messageIndex); // Display message
 				messageIndex++; // Move on too next message
 			} else { // When no more messages to be displayed
+				setBattleAnnouncement(battle.getBattleMessage(), messageIndex); // Display message
 				messageIndex = 0; // Reset message index
 				checkEndBattle();
-				handleTurn3(); // Trigger turn 3 (Post Battle Damage and
-								// Announcements)
-				if (battle.getBattleMessage().size() != 0) {
-					//setBattleAnnouncement(battle.getBattleMessage(),messageIndex);
-					turnIndex = 2;
-				} else {
-					messageIndex = 0; // Reset message index
-					turnIndex = 0;
-					setBattleOptions(); // Return to Cattle Options for next
-										// turn
-				}
+				handleTurn3(); // Trigger turn 3 (Post Battle Damage and Announcements)
+				switchToNextScreen();
+				turnIndex = 2;
 			}
 			break;
 		case 2: // Turn 3 Case
@@ -374,6 +370,7 @@ public class BattleView extends Composite {
 				setBattleAnnouncement(battle.getBattleMessage(), messageIndex); // Display message
 				messageIndex++; // Move on too next message
 			} else { // When no more messages to be displayed
+				setBattleAnnouncement(battle.getBattleMessage(), messageIndex); // Display message
 				messageIndex = 0; // reset message index
 				setBattleOptions(); // Return to Cattle Options for next turn
 				checkEndBattle();
@@ -397,7 +394,7 @@ public class BattleView extends Composite {
 		}
 	}
 
-	public void setBattleAnnouncement(ArrayList<String> announcement, int index) {
+	void setBattleAnnouncement(ArrayList<String> announcement, int index) {
 		if (index < announcement.size()) {
 			battleAnnouncementBox.setText(announcement.get(index));
 		}
@@ -596,35 +593,50 @@ public class BattleView extends Composite {
 		battle.getUser().setChoice(userChoice);
 		battle.getOpponent().setChoice(TurnChoice.MOVE);
 		battle.Turn(1);
+		test.setText(battle.getBattleMessage().toString() + "*TURN 1*");
 		updatePokemonStatus();
 		setBattleAnnouncement(battle.getBattleMessage(), messageIndex);
 		if (userChoice.equals(TurnChoice.SWITCH)) {
 			updatePokemonDisplayedInfo();
 		}
+		updatePokemonDisplayedInfo();
 	}
 
 	void handleTurn2() {
 		battle.Turn(2);
+		test.setText(battle.getBattleMessage().toString() + "*TURN 2*");
 		updatePokemonStatus();
 		setBattleAnnouncement(battle.getBattleMessage(), messageIndex);
 		messageIndex++;
+		updatePokemonDisplayedInfo();
 	}
 
 	void handleTurn3() {
 		battle.Turn(3);
+		test.setText(battle.getBattleMessage().toString() + "*TURN 3*");
 		updatePokemonStatus();
-		if (battle.getBattleMessage().size() != 0) {
-			setBattleAnnouncement(battle.getBattleMessage(), messageIndex);
-		}
+		setBattleAnnouncement(battle.getBattleMessage(), messageIndex);
 		messageIndex++;
 		updatePokemonDisplayedInfo();
 	}
 
 	void checkEndBattle() {
+		
+		if (!battle.getUserLost()&&battle.getBattleOver()&&battle.getOpponent().getName().equals("Jody Faloney")){
+			//You BEAT LANCE!!!!!
+			Window.alert("Congratulations You WIN!!!!" + "\n\n" + "Developed by: " + "\n" + "Cody Fetlch, " + "\n" + "Joseph Maloney, " + "\n" + "Derrike Hill and " + "\n" + "Thomas Powell" + "\n\n" +  "CS320 Spring 2013");
+		}
+		if (battle.getUserLost()){
+			Game.getUser().getPlayerLocation().setAreaArrayIndex(0);
+			Game.getUser().getPlayerLocation().setX(27);
+			Game.getUser().getPlayerLocation().setY(15);
+			FokemonUI.endBattle(true);
+		}
 		if (battle.getBattleOver()) {
-			FokemonUI.endBattle();
+			FokemonUI.endBattle(false);
 		}
 	}
+	
 	int returnRandomMoveIndex(){
 		return rand.nextInt(
 				battle.getOpponent().getTeam(
